@@ -12,17 +12,15 @@ body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 
-/* Pink maternity themed background */
+/* Pink pregnancy themed illustration */
 
 background:
-linear-gradient(rgba(255,240,245,0.9),rgba(255,240,245,0.9)),
-url("https://cdn.pixabay.com/photo/2017/01/31/13/14/pregnant-2027354_1280.png");
+linear-gradient(rgba(255,240,245,0.92),rgba(255,240,245,0.92)),
+url("https://cdn.dribbble.com/users/1787323/screenshots/11090372/pregnancy_care.jpg");
 
-background-size:contain;
-background-repeat:no-repeat;
-background-position:right bottom;
+background-size:cover;
+background-position:center;
 background-attachment:fixed;
-background-color:#ffe6f0;
 }
 
 /* HEADER */
@@ -147,10 +145,7 @@ border:1px solid #ccc;
 
 </nav>
 
-<!-- DASHBOARD -->
-
 <div id="dashboard" class="section active">
-
 <h2>System Overview</h2>
 
 <div class="card">
@@ -159,8 +154,6 @@ border:1px solid #ccc;
 </div>
 
 </div>
-
-<!-- HEART MONITOR -->
 
 <div id="heart" class="section">
 
@@ -175,8 +168,6 @@ border:1px solid #ccc;
 
 </div>
 
-<!-- MOVEMENT -->
-
 <div id="movement" class="section">
 
 <h2>👶 Baby Movement</h2>
@@ -188,8 +179,6 @@ border:1px solid #ccc;
 
 </div>
 
-<!-- BPP -->
-
 <div id="bpp" class="section">
 
 <h2>🧬 Biophysical Profile</h2>
@@ -199,8 +188,6 @@ border:1px solid #ccc;
 <div class="card">Amniotic Fluid Level: Normal</div>
 
 </div>
-
-<!-- AI -->
 
 <div id="ai" class="section">
 
@@ -212,8 +199,6 @@ border:1px solid #ccc;
 </div>
 
 </div>
-
-<!-- HOSPITAL -->
 
 <div id="hospital" class="section">
 
@@ -239,109 +224,20 @@ border:1px solid #ccc;
 
 </div>
 
-<!-- HISTORY -->
-
-<div id="history" class="section">
-
-<h2>📜 Medical History</h2>
-
-<div class="card">
-<h3>Previous Pregnancy History</h3>
-<p>Last Visit: 10 March 2026</p>
-<p>Doctor Notes: Healthy fetal development</p>
-</div>
-
-<div class="card">
-<h3>Earlier Visits</h3>
-<p>Visit 1 – Routine checkup</p>
-<p>Visit 2 – Ultrasound scan</p>
-</div>
-
-</div>
-
-<!-- APPOINTMENT -->
-
-<div id="appointment" class="section">
-
-<h2>📅 Online Appointment</h2>
-
-<div class="card">
-
-<input placeholder="Patient Name"><br>
-<input placeholder="Preferred Date"><br>
-
-<button class="action" onclick="bookAppointment()">Book</button>
-
-<p id="appointmentStatus"></p>
-
-</div>
-
-</div>
-
-<!-- SERVICES -->
-
-<div id="services" class="section">
-
-<h2>🚑 Healthcare Services</h2>
-
-<div class="card">
-<h3>Ambulance</h3>
-<button class="action" onclick="callAmbulance()">Request Ambulance</button>
-<p id="ambulanceStatus"></p>
-</div>
-
-<div class="card">
-<h3>Home Visit</h3>
-<button class="action" onclick="homeVisit()">Request Home Visit</button>
-<p id="homeVisitStatus"></p>
-</div>
-
-</div>
-
-<!-- ACCURACY -->
-
-<div id="accuracy" class="section">
-
-<h2>📊 Device Accuracy</h2>
-
-<div class="card">
-
-<p>Fetal Heart Detection</p>
-<div class="value">96%</div>
-
-<p>Movement Detection</p>
-<div class="value">93%</div>
-
-<p>AI Prediction</p>
-<div class="value">91%</div>
-
-</div>
-
-</div>
-
 <script>
 
-/* NAVIGATION */
-
 function showSection(id){
-
 let sections=document.querySelectorAll(".section");
-
 sections.forEach(section=>{
 section.classList.remove("active");
 });
-
 document.getElementById(id).classList.add("active");
-
 }
-
-/* ECG HEARTBEAT GRAPH */
 
 let canvas=document.getElementById("heartGraph");
 let ctx=canvas.getContext("2d");
 
 let index=0;
-
 let ecgPattern=[0,0,0,-5,-10,-20,60,-30,10,0,0];
 
 function drawECG(){
@@ -352,15 +248,11 @@ ctx.fillRect(0,0,canvas.width,canvas.height);
 ctx.beginPath();
 
 let base=100;
-
 ctx.moveTo(0,base);
 
 for(let i=0;i<canvas.width;i++){
-
 let value=ecgPattern[(index+i)%ecgPattern.length];
-
 ctx.lineTo(i,base-value);
-
 }
 
 ctx.strokeStyle="#00ff7f";
@@ -368,12 +260,9 @@ ctx.lineWidth=3;
 ctx.stroke();
 
 index++;
-
 }
 
 setInterval(drawECG,60);
-
-/* DATA SIMULATION */
 
 function updateData(){
 
@@ -384,22 +273,16 @@ document.getElementById("heartRate").innerText=heartRate+" bpm";
 document.getElementById("movementValue").innerText=movement+" movements";
 
 if(heartRate<110 || heartRate>160){
-
 document.getElementById("statusText").innerText="Warning";
 document.getElementById("riskLevel").innerText="High Risk";
-
 }else{
-
 document.getElementById("statusText").innerText="Stable";
 document.getElementById("riskLevel").innerText="Low Risk";
-
 }
 
 }
 
 setInterval(updateData,3000);
-
-/* HOSPITAL */
 
 function connectHospital(){
 document.getElementById("hospitalStatus").innerHTML="Data sent to hospital successfully.";
@@ -410,27 +293,5 @@ document.getElementById("doctorStatus").innerHTML="Gynecologist notified.";
 }
 
 function nearestHospital(){
-document.getElementById("nearHospital").innerHTML="Nearest Hospital: City Women Care Hospital (2.4 km)";
-}
-
-/* APPOINTMENT */
-
-function bookAppointment(){
-document.getElementById("appointmentStatus").innerHTML="Appointment booked.";
-}
-
-/* SERVICES */
-
-function callAmbulance(){
-document.getElementById("ambulanceStatus").innerHTML="Ambulance is on the way.";
-}
-
-function homeVisit(){
-document.getElementById("homeVisitStatus").innerHTML="Doctor home visit scheduled.";
-}
-
-</script>
-
-</body>
-</html>
+document.getElementById("
 ```
