@@ -7,94 +7,141 @@
 
 <style>
 
+/* BODY BACKGROUND */
+
 body{
-font-family:Arial;
-background:#eef5ff;
-text-align:center;
 margin:0;
+font-family:'Segoe UI',sans-serif;
+
+background-image:
+linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),
+url("https://images.unsplash.com/photo-1600959907703-125ba1374a12?auto=format&fit=crop&w=1600&q=80");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
 }
+
+/* HEADER */
 
 header{
-background:#1f3c88;
-color:white;
-padding:20px;
+background:linear-gradient(90deg,#ff9a9e,#fad0c4);
+color:#333;
+padding:22px;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-.dashboard{
+/* NAVBAR */
 
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+nav{
+background:linear-gradient(90deg,#ff758c,#ff7eb3);
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:18px;
+padding:14px;
+}
+
+nav button{
+background:white;
+border:none;
+padding:8px 14px;
+border-radius:20px;
+cursor:pointer;
+font-weight:600;
+}
+
+nav button:hover{
+background:#ffe4ec;
+}
+
+/* SECTIONS */
+
+.section{
+display:none;
 padding:30px;
-
+text-align:center;
 }
+
+.active{
+display:block;
+}
+
+/* CARD DESIGN */
 
 .card{
 
 background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 5px 10px rgba(0,0,0,0.1);
+padding:22px;
+margin:18px auto;
+width:320px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.3s;
 
+}
+
+.card:hover{
+transform:translateY(-6px);
 }
 
 .value{
-
 font-size:28px;
+color:#ff4d6d;
 margin-top:10px;
-color:#d63031;
+}
+
+/* BUTTONS */
+
+button.action{
+
+padding:12px 18px;
+border:none;
+border-radius:8px;
+background:linear-gradient(90deg,#ff758c,#ff7eb3);
+color:white;
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
 
 }
 
+button.action:hover{
+transform:scale(1.05);
+}
+
+/* STATUS */
+
 .status{
 
-font-size:22px;
-padding:15px;
-margin:20px;
+padding:14px;
 border-radius:10px;
+font-size:18px;
+margin-top:10px;
 
 }
 
 .normal{
-
 background:#d4edda;
-color:#155724;
-
 }
 
 .warning{
-
 background:#f8d7da;
-color:#721c24;
-
 }
 
 canvas{
-
 background:white;
 border-radius:10px;
-box-shadow:0 4px 8px rgba(0,0,0,0.1);
-margin:20px;
-
+box-shadow:0 5px 12px rgba(0,0,0,0.2);
 }
 
-button{
-
-padding:12px 20px;
-font-size:16px;
-margin:10px;
-border:none;
-border-radius:8px;
-background:#1f3c88;
-color:white;
-cursor:pointer;
-
-}
-
-button:hover{
-
-background:#2f52b5;
-
+input{
+padding:8px;
+margin:6px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 </style>
@@ -105,79 +152,231 @@ background:#2f52b5;
 
 <header>
 
-<h1>Wearable Fetal Monitoring Dashboard</h1>
-<p>Continuous Maternal & Fetal Health Monitoring</p>
+<h1>Wearable Fetal Monitoring System</h1>
+<p>Smart Maternal & Baby Health Monitoring</p>
 
 </header>
 
-<canvas id="heartGraph" width="800" height="200"></canvas>
+<nav>
 
-<div class="dashboard">
+<button onclick="showSection('dashboard')">🏠 Dashboard</button>
+<button onclick="showSection('heart')">❤️ Heart</button>
+<button onclick="showSection('movement')">👶 Movement</button>
+<button onclick="showSection('bpp')">🧬 BPP</button>
+<button onclick="showSection('ai')">🤖 AI Risk</button>
+<button onclick="showSection('hospital')">🏥 Hospital</button>
+<button onclick="showSection('history')">📜 History</button>
+<button onclick="showSection('appointment')">📅 Appointment</button>
+<button onclick="showSection('services')">🚑 Services</button>
+<button onclick="showSection('accuracy')">📊 Accuracy</button>
+
+</nav>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="section active">
+
+<h2>System Overview</h2>
+
+<div class="card">
+<h3>Current Fetal Status</h3>
+<div id="statusText">Stable</div>
+</div>
+
+</div>
+
+<!-- HEART MONITOR -->
+
+<div id="heart" class="section">
+
+<h2>❤️ Fetal Heart Monitoring</h2>
+
+<canvas id="heartGraph" width="700" height="200"></canvas>
 
 <div class="card">
 
-<h3>Fetal Heart Rate</h3>
-<div class="value" id="heartRate">-- bpm</div>
+<h3>Heart Rate</h3>
+<div id="heartRate" class="value">-- bpm</div>
+
+</div>
+
+</div>
+
+<!-- MOVEMENT -->
+
+<div id="movement" class="section">
+
+<h2>👶 Baby Movement</h2>
+
+<div class="card">
+<h3>Movement Count</h3>
+<div id="movementValue" class="value">--</div>
+</div>
+
+</div>
+
+<!-- BPP -->
+
+<div id="bpp" class="section">
+
+<h2>🧬 Biophysical Profile</h2>
+
+<div class="card">Fetal Breathing: Normal</div>
+<div class="card">Muscle Tone: Healthy</div>
+<div class="card">Amniotic Fluid Level: Normal</div>
+
+</div>
+
+<!-- AI -->
+
+<div id="ai" class="section">
+
+<h2>🤖 AI Risk Prediction</h2>
+
+<div class="card">
+<h3>Risk Level</h3>
+<div id="riskLevel" class="value">Low Risk</div>
+</div>
+
+</div>
+
+<!-- HOSPITAL -->
+
+<div id="hospital" class="section">
+
+<h2>🏥 Hospital Connectivity</h2>
+
+<div class="card">
+
+<h3>Connect to My Hospital</h3>
+<button class="action" onclick="connectHospital()">Send Data</button>
+<p id="hospitalStatus"></p>
 
 </div>
 
 <div class="card">
 
-<h3>Baby Movement</h3>
-<div class="value" id="movement">-- / hr</div>
+<h3>My Gynecologist</h3>
+<button class="action" onclick="connectDoctor()">Contact</button>
+<p id="doctorStatus"></p>
 
 </div>
 
 <div class="card">
 
-<h3>Heart Rate Variability</h3>
-<div class="value" id="hrv">Normal</div>
+<h3>Nearest Hospital</h3>
+<button class="action" onclick="nearestHospital()">Find</button>
+<p id="nearHospital"></p>
+
+</div>
+
+</div>
+
+<!-- HISTORY -->
+
+<div id="history" class="section">
+
+<h2>📜 Medical History</h2>
+
+<div class="card">
+
+<h3>Previous Pregnancy History</h3>
+<p>Last Visit: 10 March 2026</p>
+<p>Doctor Notes: Healthy fetal development</p>
 
 </div>
 
 <div class="card">
 
-<h3>Fetal Breathing</h3>
-<div class="value">Normal</div>
+<h3>Earlier Visits</h3>
+<p>Visit 1 – Routine checkup</p>
+<p>Visit 2 – Ultrasound scan</p>
+
+</div>
+
+</div>
+
+<!-- APPOINTMENT -->
+
+<div id="appointment" class="section">
+
+<h2>📅 Online Appointment</h2>
+
+<div class="card">
+
+<input placeholder="Patient Name"><br>
+<input placeholder="Preferred Date"><br>
+
+<button class="action" onclick="bookAppointment()">Book</button>
+
+<p id="appointmentStatus"></p>
+
+</div>
+
+</div>
+
+<!-- SERVICES -->
+
+<div id="services" class="section">
+
+<h2>🚑 Healthcare Services</h2>
+
+<div class="card">
+
+<h3>Ambulance</h3>
+<button class="action" onclick="callAmbulance()">Request Ambulance</button>
+<p id="ambulanceStatus"></p>
 
 </div>
 
 <div class="card">
 
-<h3>Muscle Tone</h3>
-<div class="value">Healthy</div>
+<h3>Home Visit</h3>
+<button class="action" onclick="homeVisit()">Request Home Visit</button>
+<p id="homeVisitStatus"></p>
 
 </div>
+
+</div>
+
+<!-- ACCURACY -->
+
+<div id="accuracy" class="section">
+
+<h2>📊 Device Accuracy</h2>
 
 <div class="card">
 
-<h3>Amniotic Fluid Level</h3>
-<div class="value">Normal AFI</div>
+<p>Fetal Heart Detection</p>
+<div class="value">96%</div>
+
+<p>Movement Detection</p>
+<div class="value">93%</div>
+
+<p>AI Prediction</p>
+<div class="value">91%</div>
 
 </div>
 
-<div class="card">
-
-<h3>AI Risk Prediction</h3>
-<div class="value" id="risk">Low Risk</div>
-
 </div>
-
-</div>
-
-<div id="healthStatus" class="status normal">
-
-Fetal Condition: Stable
-
-</div>
-
-<button onclick="simulateEmergency()">Simulate Emergency</button>
-
-<button onclick="suggestHospital()">Find Nearest Hospital</button>
-
-<p id="hospital"></p>
 
 <script>
+
+/* NAVIGATION */
+
+function showSection(id){
+
+let sections=document.querySelectorAll(".section");
+
+sections.forEach(section=>{
+section.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+}
+
+/* HEART GRAPH */
 
 let canvas=document.getElementById("heartGraph");
 let ctx=canvas.getContext("2d");
@@ -193,12 +392,11 @@ ctx.beginPath();
 for(let i=0;i<canvas.width;i++){
 
 let y=100+Math.sin((i+x)/20)*40;
-
 ctx.lineTo(i,y);
 
 }
 
-ctx.strokeStyle="#e63946";
+ctx.strokeStyle="red";
 ctx.lineWidth=2;
 ctx.stroke();
 
@@ -208,53 +406,25 @@ x+=5;
 
 setInterval(drawGraph,100);
 
+/* DATA SIMULATION */
+
 function updateData(){
 
 let heartRate=Math.floor(Math.random()*40)+110;
-
-let movement=Math.floor(Math.random()*10)+2;
+let movement=Math.floor(Math.random()*10)+3;
 
 document.getElementById("heartRate").innerText=heartRate+" bpm";
-
-document.getElementById("movement").innerText=movement+" movements";
-
-if(heartRate<120){
-
-document.getElementById("hrv").innerText="Low";
-
-document.getElementById("risk").innerText="Medium Risk";
-
-}
-
-else if(heartRate>150){
-
-document.getElementById("hrv").innerText="High";
-
-document.getElementById("risk").innerText="Medium Risk";
-
-}
-
-else{
-
-document.getElementById("hrv").innerText="Normal";
-
-document.getElementById("risk").innerText="Low Risk";
-
-}
+document.getElementById("movementValue").innerText=movement+" movements";
 
 if(heartRate<110 || heartRate>160){
 
-document.getElementById("healthStatus").innerHTML="⚠ Warning: Abnormal fetal heart rate detected";
+document.getElementById("statusText").innerText="Warning";
+document.getElementById("riskLevel").innerText="High Risk";
 
-document.getElementById("healthStatus").className="status warning";
+}else{
 
-}
-
-else{
-
-document.getElementById("healthStatus").innerHTML="Fetal Condition: Stable";
-
-document.getElementById("healthStatus").className="status normal";
+document.getElementById("statusText").innerText="Stable";
+document.getElementById("riskLevel").innerText="Low Risk";
 
 }
 
@@ -262,22 +432,37 @@ document.getElementById("healthStatus").className="status normal";
 
 setInterval(updateData,3000);
 
-function simulateEmergency(){
+/* HOSPITAL */
 
-document.getElementById("healthStatus").innerHTML="🚨 Emergency Alert: Possible fetal distress detected! Contact doctor immediately.";
-
-document.getElementById("healthStatus").className="status warning";
-
+function connectHospital(){
+document.getElementById("hospitalStatus").innerHTML="Data sent to hospital successfully.";
 }
 
-function suggestHospital(){
+function connectDoctor(){
+document.getElementById("doctorStatus").innerHTML="Gynecologist notified.";
+}
 
-document.getElementById("hospital").innerHTML="Nearest Hospital: City Maternity Care Center (2.4 km away)";
+function nearestHospital(){
+document.getElementById("nearHospital").innerHTML="Nearest Hospital: City Women Care Hospital (2.4 km)";
+}
 
+/* APPOINTMENT */
+
+function bookAppointment(){
+document.getElementById("appointmentStatus").innerHTML="Appointment booked.";
+}
+
+/* SERVICES */
+
+function callAmbulance(){
+document.getElementById("ambulanceStatus").innerHTML="Ambulance is on the way.";
+}
+
+function homeVisit(){
+document.getElementById("homeVisitStatus").innerHTML="Doctor home visit scheduled.";
 }
 
 </script>
 
 </body>
-
 </html>
