@@ -12,13 +12,17 @@ body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 
-background-image:
-linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),
-url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80");
+/* Pink maternity themed background */
 
-background-size:cover;
-background-position:center;
+background:
+linear-gradient(rgba(255,240,245,0.9),rgba(255,240,245,0.9)),
+url("https://cdn.pixabay.com/photo/2017/01/31/13/14/pregnant-2027354_1280.png");
+
+background-size:contain;
+background-repeat:no-repeat;
+background-position:right bottom;
 background-attachment:fixed;
+background-color:#ffe6f0;
 }
 
 /* HEADER */
@@ -331,20 +335,14 @@ document.getElementById(id).classList.add("active");
 
 }
 
-/* SCROLLING ECG HEARTBEAT MONITOR */
+/* ECG HEARTBEAT GRAPH */
 
 let canvas=document.getElementById("heartGraph");
 let ctx=canvas.getContext("2d");
 
 let index=0;
 
-let ecgPattern=[
-0,0,0,0,
--5,-10,-15,
-50,
--25,
-5,0,0,0,0,0
-];
+let ecgPattern=[0,0,0,-5,-10,-20,60,-30,10,0,0];
 
 function drawECG(){
 
