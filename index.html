@@ -1,68 +1,100 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Wearable Fetal Monitoring System</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#f4f8fb;
+font-family:Arial;
+background:#eef5ff;
 text-align:center;
+margin:0;
 }
 
-h1{
-color:#2c3e50;
+header{
+background:#1f3c88;
+color:white;
+padding:20px;
 }
 
 .dashboard{
+
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
-width:70%;
-margin:auto;
-margin-top:30px;
+padding:30px;
+
 }
 
 .card{
+
 background:white;
 padding:20px;
-border-radius:10px;
-box-shadow:0 4px 8px rgba(0,0,0,0.1);
+border-radius:12px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+
 }
 
 .value{
+
 font-size:28px;
-color:#e74c3c;
 margin-top:10px;
+color:#d63031;
+
 }
 
 .status{
-margin-top:30px;
+
 font-size:22px;
 padding:15px;
+margin:20px;
 border-radius:10px;
+
 }
 
 .normal{
+
 background:#d4edda;
 color:#155724;
+
 }
 
 .warning{
+
 background:#f8d7da;
 color:#721c24;
+
+}
+
+canvas{
+
+background:white;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+margin:20px;
+
 }
 
 button{
-padding:10px 20px;
+
+padding:12px 20px;
 font-size:16px;
-margin-top:10px;
-background:#3498db;
-color:white;
+margin:10px;
 border:none;
-border-radius:6px;
+border-radius:8px;
+background:#1f3c88;
+color:white;
 cursor:pointer;
+
+}
+
+button:hover{
+
+background:#2f52b5;
+
 }
 
 </style>
@@ -71,63 +103,148 @@ cursor:pointer;
 
 <body>
 
+<header>
+
 <h1>Wearable Fetal Monitoring Dashboard</h1>
-<p>Real-time maternal and fetal health monitoring</p>
+<p>Continuous Maternal & Fetal Health Monitoring</p>
+
+</header>
+
+<canvas id="heartGraph" width="800" height="200"></canvas>
 
 <div class="dashboard">
 
 <div class="card">
+
 <h3>Fetal Heart Rate</h3>
 <div class="value" id="heartRate">-- bpm</div>
+
 </div>
 
 <div class="card">
+
 <h3>Baby Movement</h3>
 <div class="value" id="movement">-- / hr</div>
+
 </div>
 
 <div class="card">
+
 <h3>Heart Rate Variability</h3>
 <div class="value" id="hrv">Normal</div>
+
 </div>
 
 <div class="card">
+
 <h3>Fetal Breathing</h3>
 <div class="value">Normal</div>
+
 </div>
 
 <div class="card">
+
 <h3>Muscle Tone</h3>
 <div class="value">Healthy</div>
+
 </div>
 
 <div class="card">
+
 <h3>Amniotic Fluid Level</h3>
 <div class="value">Normal AFI</div>
+
+</div>
+
+<div class="card">
+
+<h3>AI Risk Prediction</h3>
+<div class="value" id="risk">Low Risk</div>
+
 </div>
 
 </div>
 
 <div id="healthStatus" class="status normal">
+
 Fetal Condition: Stable
+
 </div>
 
 <button onclick="simulateEmergency()">Simulate Emergency</button>
 
+<button onclick="suggestHospital()">Find Nearest Hospital</button>
+
+<p id="hospital"></p>
+
 <script>
+
+let canvas=document.getElementById("heartGraph");
+let ctx=canvas.getContext("2d");
+
+let x=0;
+
+function drawGraph(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.beginPath();
+
+for(let i=0;i<canvas.width;i++){
+
+let y=100+Math.sin((i+x)/20)*40;
+
+ctx.lineTo(i,y);
+
+}
+
+ctx.strokeStyle="#e63946";
+ctx.lineWidth=2;
+ctx.stroke();
+
+x+=5;
+
+}
+
+setInterval(drawGraph,100);
 
 function updateData(){
 
-let heartRate=Math.floor(Math.random()*30)+120;
-let movement=Math.floor(Math.random()*10)+3;
+let heartRate=Math.floor(Math.random()*40)+110;
+
+let movement=Math.floor(Math.random()*10)+2;
 
 document.getElementById("heartRate").innerText=heartRate+" bpm";
+
 document.getElementById("movement").innerText=movement+" movements";
+
+if(heartRate<120){
+
+document.getElementById("hrv").innerText="Low";
+
+document.getElementById("risk").innerText="Medium Risk";
+
+}
+
+else if(heartRate>150){
+
+document.getElementById("hrv").innerText="High";
+
+document.getElementById("risk").innerText="Medium Risk";
+
+}
+
+else{
+
+document.getElementById("hrv").innerText="Normal";
+
+document.getElementById("risk").innerText="Low Risk";
+
+}
 
 if(heartRate<110 || heartRate>160){
 
-document.getElementById("healthStatus").innerHTML=
-"⚠ Warning: Abnormal fetal heart rate detected";
+document.getElementById("healthStatus").innerHTML="⚠ Warning: Abnormal fetal heart rate detected";
 
 document.getElementById("healthStatus").className="status warning";
 
@@ -135,8 +252,7 @@ document.getElementById("healthStatus").className="status warning";
 
 else{
 
-document.getElementById("healthStatus").innerHTML=
-"Fetal Condition: Stable";
+document.getElementById("healthStatus").innerHTML="Fetal Condition: Stable";
 
 document.getElementById("healthStatus").className="status normal";
 
@@ -148,14 +264,20 @@ setInterval(updateData,3000);
 
 function simulateEmergency(){
 
-document.getElementById("healthStatus").innerHTML=
-"🚨 Emergency Alert: Possible fetal distress detected! Please contact doctor.";
+document.getElementById("healthStatus").innerHTML="🚨 Emergency Alert: Possible fetal distress detected! Contact doctor immediately.";
 
 document.getElementById("healthStatus").className="status warning";
+
+}
+
+function suggestHospital(){
+
+document.getElementById("hospital").innerHTML="Nearest Hospital: City Maternity Care Center (2.4 km away)";
 
 }
 
 </script>
 
 </body>
+
 </html>
