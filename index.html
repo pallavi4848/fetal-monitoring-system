@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wearable Fetal Monitoring System</title>
 
+<style>
+
+body{
+font-family: Arial;
+background:#f4f8fb;
+text-align:center;
+}
+
+h1{
+color:#2c3e50;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+width:70%;
+margin:auto;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.value{
+font-size:28px;
+color:#e74c3c;
+margin-top:10px;
+}
+
+.status{
+margin-top:30px;
+font-size:22px;
+padding:15px;
+border-radius:10px;
+}
+
+.normal{
+background:#d4edda;
+color:#155724;
+}
+
+.warning{
+background:#f8d7da;
+color:#721c24;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin-top:10px;
+background:#3498db;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Wearable Fetal Monitoring Dashboard</h1>
+<p>Real-time maternal and fetal health monitoring</p>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Fetal Heart Rate</h3>
+<div class="value" id="heartRate">-- bpm</div>
+</div>
+
+<div class="card">
+<h3>Baby Movement</h3>
+<div class="value" id="movement">-- / hr</div>
+</div>
+
+<div class="card">
+<h3>Heart Rate Variability</h3>
+<div class="value" id="hrv">Normal</div>
+</div>
+
+<div class="card">
+<h3>Fetal Breathing</h3>
+<div class="value">Normal</div>
+</div>
+
+<div class="card">
+<h3>Muscle Tone</h3>
+<div class="value">Healthy</div>
+</div>
+
+<div class="card">
+<h3>Amniotic Fluid Level</h3>
+<div class="value">Normal AFI</div>
+</div>
+
+</div>
+
+<div id="healthStatus" class="status normal">
+Fetal Condition: Stable
+</div>
+
+<button onclick="simulateEmergency()">Simulate Emergency</button>
+
+<script>
+
+function updateData(){
+
+let heartRate=Math.floor(Math.random()*30)+120;
+let movement=Math.floor(Math.random()*10)+3;
+
+document.getElementById("heartRate").innerText=heartRate+" bpm";
+document.getElementById("movement").innerText=movement+" movements";
+
+if(heartRate<110 || heartRate>160){
+
+document.getElementById("healthStatus").innerHTML=
+"⚠ Warning: Abnormal fetal heart rate detected";
+
+document.getElementById("healthStatus").className="status warning";
+
+}
+
+else{
+
+document.getElementById("healthStatus").innerHTML=
+"Fetal Condition: Stable";
+
+document.getElementById("healthStatus").className="status normal";
+
+}
+
+}
+
+setInterval(updateData,3000);
+
+function simulateEmergency(){
+
+document.getElementById("healthStatus").innerHTML=
+"🚨 Emergency Alert: Possible fetal distress detected! Please contact doctor.";
+
+document.getElementById("healthStatus").className="status warning";
+
+}
+
+</script>
+
+</body>
+</html>
