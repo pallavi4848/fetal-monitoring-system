@@ -13,8 +13,8 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 
 background-image:
-linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),
-url("https://images.unsplash.com/photo-1519681393784-d120267933ba");
+linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),
+url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80");
 
 background-size:cover;
 background-position:center;
@@ -25,18 +25,42 @@ background-attachment:fixed;
 
 header{
 background:linear-gradient(90deg,#ff9a9e,#fad0c4);
-padding:18px;
+color:#333;
+padding:22px;
 text-align:center;
-font-weight:bold;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* NAVBAR */
+
+nav{
+background:linear-gradient(90deg,#ff758c,#ff7eb3);
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:18px;
+padding:14px;
+}
+
+nav button{
+background:white;
+border:none;
+padding:8px 14px;
+border-radius:20px;
+cursor:pointer;
+font-weight:600;
+}
+
+nav button:hover{
+background:#ffe4ec;
 }
 
 /* SECTIONS */
 
 .section{
 display:none;
-padding:25px;
+padding:30px;
 text-align:center;
-margin-bottom:80px;
 }
 
 .active{
@@ -47,11 +71,16 @@ display:block;
 
 .card{
 background:white;
-padding:20px;
-margin:15px auto;
+padding:22px;
+margin:18px auto;
 width:320px;
-border-radius:14px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
 }
 
 .value{
@@ -61,50 +90,31 @@ margin-top:10px;
 }
 
 button.action{
-padding:10px 16px;
+padding:12px 18px;
 border:none;
 border-radius:8px;
-background:#ff7eb3;
+background:linear-gradient(90deg,#ff758c,#ff7eb3);
 color:white;
 cursor:pointer;
 margin-top:10px;
+font-weight:bold;
+}
+
+button.action:hover{
+transform:scale(1.05);
 }
 
 canvas{
 background:black;
 border-radius:10px;
+box-shadow:0 5px 12px rgba(0,0,0,0.2);
 }
-
-/* INPUT */
 
 input{
 padding:8px;
 margin:6px;
 border-radius:6px;
 border:1px solid #ccc;
-}
-
-/* BOTTOM NAVBAR */
-
-.bottomNav{
-
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-box-shadow:0 -3px 10px rgba(0,0,0,0.2);
-
-}
-
-.bottomNav button{
-
-background:none;
-border:none;
-font-size:13px;
-cursor:pointer;
 }
 
 </style>
@@ -114,10 +124,24 @@ cursor:pointer;
 <body>
 
 <header>
-
-Wearable Fetal Monitoring System
-
+<h1>Wearable Fetal Monitoring System</h1>
+<p>Smart Maternal & Baby Health Monitoring</p>
 </header>
+
+<nav>
+
+<button onclick="showSection('dashboard')">🏠 Dashboard</button>
+<button onclick="showSection('heart')">❤️ Heart</button>
+<button onclick="showSection('movement')">👶 Movement</button>
+<button onclick="showSection('bpp')">🧬 BPP</button>
+<button onclick="showSection('ai')">🤖 AI Risk</button>
+<button onclick="showSection('hospital')">🏥 Hospital</button>
+<button onclick="showSection('history')">📜 History</button>
+<button onclick="showSection('appointment')">📅 Appointment</button>
+<button onclick="showSection('services')">🚑 Services</button>
+<button onclick="showSection('accuracy')">📊 Accuracy</button>
+
+</nav>
 
 <!-- DASHBOARD -->
 
@@ -126,17 +150,17 @@ Wearable Fetal Monitoring System
 <h2>System Overview</h2>
 
 <div class="card">
-<h3>Fetal Status</h3>
+<h3>Current Fetal Status</h3>
 <div id="statusText">Stable</div>
 </div>
 
 </div>
 
-<!-- HEART -->
+<!-- HEART MONITOR -->
 
 <div id="heart" class="section">
 
-<h2>Fetal Heart Monitor</h2>
+<h2>❤️ Fetal Heart Monitoring</h2>
 
 <canvas id="heartGraph" width="700" height="200"></canvas>
 
@@ -151,7 +175,7 @@ Wearable Fetal Monitoring System
 
 <div id="movement" class="section">
 
-<h2>Baby Movement</h2>
+<h2>👶 Baby Movement</h2>
 
 <div class="card">
 <h3>Movement Count</h3>
@@ -160,11 +184,36 @@ Wearable Fetal Monitoring System
 
 </div>
 
+<!-- BPP -->
+
+<div id="bpp" class="section">
+
+<h2>🧬 Biophysical Profile</h2>
+
+<div class="card">Fetal Breathing: Normal</div>
+<div class="card">Muscle Tone: Healthy</div>
+<div class="card">Amniotic Fluid Level: Normal</div>
+
+</div>
+
+<!-- AI -->
+
+<div id="ai" class="section">
+
+<h2>🤖 AI Risk Prediction</h2>
+
+<div class="card">
+<h3>Risk Level</h3>
+<div id="riskLevel" class="value">Low Risk</div>
+</div>
+
+</div>
+
 <!-- HOSPITAL -->
 
 <div id="hospital" class="section">
 
-<h2>Hospital Connectivity</h2>
+<h2>🏥 Hospital Connectivity</h2>
 
 <div class="card">
 <h3>Connect to My Hospital</h3>
@@ -190,11 +239,18 @@ Wearable Fetal Monitoring System
 
 <div id="history" class="section">
 
-<h2>Previous History</h2>
+<h2>📜 Medical History</h2>
 
 <div class="card">
+<h3>Previous Pregnancy History</h3>
 <p>Last Visit: 10 March 2026</p>
 <p>Doctor Notes: Healthy fetal development</p>
+</div>
+
+<div class="card">
+<h3>Earlier Visits</h3>
+<p>Visit 1 – Routine checkup</p>
+<p>Visit 2 – Ultrasound scan</p>
 </div>
 
 </div>
@@ -203,14 +259,14 @@ Wearable Fetal Monitoring System
 
 <div id="appointment" class="section">
 
-<h2>Online Appointment</h2>
+<h2>📅 Online Appointment</h2>
 
 <div class="card">
 
 <input placeholder="Patient Name"><br>
-<input placeholder="Date"><br>
+<input placeholder="Preferred Date"><br>
 
-<button class="action" onclick="bookAppointment()">Book Appointment</button>
+<button class="action" onclick="bookAppointment()">Book</button>
 
 <p id="appointmentStatus"></p>
 
@@ -222,17 +278,17 @@ Wearable Fetal Monitoring System
 
 <div id="services" class="section">
 
-<h2>Emergency Services</h2>
+<h2>🚑 Healthcare Services</h2>
 
 <div class="card">
 <h3>Ambulance</h3>
-<button class="action" onclick="callAmbulance()">Request</button>
+<button class="action" onclick="callAmbulance()">Request Ambulance</button>
 <p id="ambulanceStatus"></p>
 </div>
 
 <div class="card">
 <h3>Home Visit</h3>
-<button class="action" onclick="homeVisit()">Request</button>
+<button class="action" onclick="homeVisit()">Request Home Visit</button>
 <p id="homeVisitStatus"></p>
 </div>
 
@@ -242,11 +298,11 @@ Wearable Fetal Monitoring System
 
 <div id="accuracy" class="section">
 
-<h2>Device Accuracy</h2>
+<h2>📊 Device Accuracy</h2>
 
 <div class="card">
 
-<p>Heart Detection</p>
+<p>Fetal Heart Detection</p>
 <div class="value">96%</div>
 
 <p>Movement Detection</p>
@@ -256,22 +312,6 @@ Wearable Fetal Monitoring System
 <div class="value">91%</div>
 
 </div>
-
-</div>
-
-<!-- BOTTOM NAVIGATION -->
-
-<div class="bottomNav">
-
-<button onclick="showSection('dashboard')">🏠<br>Home</button>
-
-<button onclick="showSection('heart')">❤️<br>Heart</button>
-
-<button onclick="showSection('movement')">👶<br>Movement</button>
-
-<button onclick="showSection('hospital')">🏥<br>Hospital</button>
-
-<button onclick="showSection('services')">🚑<br>Help</button>
 
 </div>
 
@@ -291,7 +331,7 @@ document.getElementById(id).classList.add("active");
 
 }
 
-/* ECG HEARTBEAT */
+/* SCROLLING ECG HEARTBEAT MONITOR */
 
 let canvas=document.getElementById("heartGraph");
 let ctx=canvas.getContext("2d");
@@ -299,11 +339,11 @@ let ctx=canvas.getContext("2d");
 let index=0;
 
 let ecgPattern=[
-0,0,0,
--5,-10,
+0,0,0,0,
+-5,-10,-15,
 50,
 -25,
-5,0,0,0
+5,0,0,0,0,0
 ];
 
 function drawECG(){
@@ -335,7 +375,7 @@ index++;
 
 setInterval(drawECG,60);
 
-/* DATA */
+/* DATA SIMULATION */
 
 function updateData(){
 
@@ -348,10 +388,12 @@ document.getElementById("movementValue").innerText=movement+" movements";
 if(heartRate<110 || heartRate>160){
 
 document.getElementById("statusText").innerText="Warning";
+document.getElementById("riskLevel").innerText="High Risk";
 
 }else{
 
 document.getElementById("statusText").innerText="Stable";
+document.getElementById("riskLevel").innerText="Low Risk";
 
 }
 
@@ -359,10 +401,10 @@ document.getElementById("statusText").innerText="Stable";
 
 setInterval(updateData,3000);
 
-/* FUNCTIONS */
+/* HOSPITAL */
 
 function connectHospital(){
-document.getElementById("hospitalStatus").innerHTML="Data sent to hospital.";
+document.getElementById("hospitalStatus").innerHTML="Data sent to hospital successfully.";
 }
 
 function connectDoctor(){
@@ -370,19 +412,23 @@ document.getElementById("doctorStatus").innerHTML="Gynecologist notified.";
 }
 
 function nearestHospital(){
-document.getElementById("nearHospital").innerHTML="Nearest Hospital 2.4 km.";
+document.getElementById("nearHospital").innerHTML="Nearest Hospital: City Women Care Hospital (2.4 km)";
 }
+
+/* APPOINTMENT */
 
 function bookAppointment(){
 document.getElementById("appointmentStatus").innerHTML="Appointment booked.";
 }
 
+/* SERVICES */
+
 function callAmbulance(){
-document.getElementById("ambulanceStatus").innerHTML="Ambulance dispatched.";
+document.getElementById("ambulanceStatus").innerHTML="Ambulance is on the way.";
 }
 
 function homeVisit(){
-document.getElementById("homeVisitStatus").innerHTML="Home visit scheduled.";
+document.getElementById("homeVisitStatus").innerHTML="Doctor home visit scheduled.";
 }
 
 </script>
