@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 
@@ -72,7 +73,6 @@ display:block;
 /* CARD DESIGN */
 
 .card{
-
 background:white;
 padding:22px;
 margin:18px auto;
@@ -80,7 +80,6 @@ width:320px;
 border-radius:16px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 transition:0.3s;
-
 }
 
 .card:hover{
@@ -96,7 +95,6 @@ margin-top:10px;
 /* BUTTONS */
 
 button.action{
-
 padding:12px 18px;
 border:none;
 border-radius:8px;
@@ -105,30 +103,10 @@ color:white;
 cursor:pointer;
 margin-top:10px;
 font-weight:bold;
-
 }
 
 button.action:hover{
 transform:scale(1.05);
-}
-
-/* STATUS */
-
-.status{
-
-padding:14px;
-border-radius:10px;
-font-size:18px;
-margin-top:10px;
-
-}
-
-.normal{
-background:#d4edda;
-}
-
-.warning{
-background:#f8d7da;
 }
 
 canvas{
@@ -194,10 +172,8 @@ border:1px solid #ccc;
 <canvas id="heartGraph" width="700" height="200"></canvas>
 
 <div class="card">
-
 <h3>Heart Rate</h3>
 <div id="heartRate" class="value">-- bpm</div>
-
 </div>
 
 </div>
@@ -247,27 +223,21 @@ border:1px solid #ccc;
 <h2>🏥 Hospital Connectivity</h2>
 
 <div class="card">
-
 <h3>Connect to My Hospital</h3>
 <button class="action" onclick="connectHospital()">Send Data</button>
 <p id="hospitalStatus"></p>
-
 </div>
 
 <div class="card">
-
 <h3>My Gynecologist</h3>
 <button class="action" onclick="connectDoctor()">Contact</button>
 <p id="doctorStatus"></p>
-
 </div>
 
 <div class="card">
-
 <h3>Nearest Hospital</h3>
 <button class="action" onclick="nearestHospital()">Find</button>
 <p id="nearHospital"></p>
-
 </div>
 
 </div>
@@ -279,19 +249,15 @@ border:1px solid #ccc;
 <h2>📜 Medical History</h2>
 
 <div class="card">
-
 <h3>Previous Pregnancy History</h3>
 <p>Last Visit: 10 March 2026</p>
 <p>Doctor Notes: Healthy fetal development</p>
-
 </div>
 
 <div class="card">
-
 <h3>Earlier Visits</h3>
 <p>Visit 1 – Routine checkup</p>
 <p>Visit 2 – Ultrasound scan</p>
-
 </div>
 
 </div>
@@ -322,19 +288,15 @@ border:1px solid #ccc;
 <h2>🚑 Healthcare Services</h2>
 
 <div class="card">
-
 <h3>Ambulance</h3>
 <button class="action" onclick="callAmbulance()">Request Ambulance</button>
 <p id="ambulanceStatus"></p>
-
 </div>
 
 <div class="card">
-
 <h3>Home Visit</h3>
 <button class="action" onclick="homeVisit()">Request Home Visit</button>
 <p id="homeVisitStatus"></p>
-
 </div>
 
 </div>
@@ -376,35 +338,45 @@ document.getElementById(id).classList.add("active");
 
 }
 
-/* HEART GRAPH */
+/* REAL ECG HEARTBEAT GRAPH */
 
 let canvas=document.getElementById("heartGraph");
 let ctx=canvas.getContext("2d");
 
-let x=0;
-
-function drawGraph(){
+function drawECG(){
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
 ctx.beginPath();
 
+let base=100;
+
+ctx.moveTo(0,base);
+
 for(let i=0;i<canvas.width;i++){
 
-let y=100+Math.sin((i+x)/20)*40;
-ctx.lineTo(i,y);
+let wave=0;
+
+let cycle=i%120;
+
+if(cycle<10) wave=0;
+else if(cycle<15) wave=-10;
+else if(cycle<18) wave=80;
+else if(cycle<22) wave=-40;
+else if(cycle<30) wave=10;
+else wave=0;
+
+ctx.lineTo(i,base-wave);
 
 }
 
 ctx.strokeStyle="red";
-ctx.lineWidth=2;
+ctx.lineWidth=3;
 ctx.stroke();
-
-x+=5;
 
 }
 
-setInterval(drawGraph,100);
+setInterval(drawECG,120);
 
 /* DATA SIMULATION */
 
@@ -466,3 +438,4 @@ document.getElementById("homeVisitStatus").innerHTML="Doctor home visit schedule
 
 </body>
 </html>
+```
